@@ -7,3 +7,7 @@ export default function Hero({childern, hero}) {
     </header>
   );
 };
+
+Hero.defaultProps = {
+  hero: 'defaultHero',
+};
