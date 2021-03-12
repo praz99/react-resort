@@ -14,7 +14,6 @@ export default class FeaturedRooms extends Component {
       });
     }
 
-    console.log(rooms);
     return (
       <section className="featured-rooms">
         <Title title="featured rooms" />
