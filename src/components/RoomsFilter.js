@@ -23,6 +23,11 @@ export default function RoomFilter({rooms}) {
   types = types.map((item, index) => {
     return <option value={item} key={index}>{item}</option>
   });
+
+  let people = getUnique(rooms, 'capacity');
+  people = people.map((item, index) => {
+    return <option key={index} value={item}>{item}</option>
+  })
   return (
     <section className="filter-container">
       <Title title="search rooms" />
@@ -35,6 +40,15 @@ export default function RoomFilter({rooms}) {
           </select>
         </div>
         {/* end of select type */}
+
+        {/* guest */}
+        <div className="form-group">
+          <label htmlFor="capacity">guests</label>
+          <select name="capacity" id="capacity" value={capacity} className="from-control" onChange={handleChange}>
+            {people}
+          </select>
+        </div>
+        {/* end of guest */}
       </form>
     </section>
   );
