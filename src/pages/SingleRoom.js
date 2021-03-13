@@ -1,8 +1,10 @@
+/* eslint-disable react/no-array-index-key */
+
 import React, { Component } from 'react';
-import defaultBcg from '../images/room-1.jpeg';
-import Hero from '../components/Hero';
-import Banner from '../components/Banner';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import defaultBcg from '../images/room-1.jpeg';
+import Banner from '../components/Banner';
 import { RoomContext } from '../Context';
 import StyledHero from '../components/StyledHero';
 
@@ -10,18 +12,18 @@ export default class SingleRoom extends Component {
   constructor(props) {
     super(props);
     // console.log(this.props);
+    const { match } = props;
     this.state = {
-      slug: this.props.match.params.slug,
+      slug: match.params.slug,
       defaultBcg,
     };
-  };
-
-  static contextType = RoomContext;
+  }
 
   render() {
-    const {getRoom} = this.context;
-    const room = getRoom(this.state.slug);
-    if(!room) {
+    const { getRoom } = this.context;
+    const { slug } = this.state;
+    const room = getRoom(slug);
+    if (!room) {
       return (
         <div className="error">
           <h3>No such room could be found...</h3>
@@ -32,23 +34,24 @@ export default class SingleRoom extends Component {
       );
     }
 
-    const {name, description, capacity, size, price, extras, breakfast, pets, images} = room;
+    const {
+      name, description, capacity, size, price, extras, breakfast, pets, images,
+    } = room;
     const [mainImg, ...defaultImg] = images;
+    const { defaultBcg } = this.state;
 
     return (
       <>
-        <StyledHero img={mainImg || this.state.defaultBcg}>
+        <StyledHero img={mainImg || defaultBcg}>
           <Banner title={`${name}`}>
-            <Link to='/rooms' className='btn-primary'>
+            <Link to="/rooms" className="btn-primary">
               back to rooms
             </Link>
           </Banner>
         </StyledHero>
         <section className="single-room">
           <div className="single-room-images">
-          {defaultImg.map((item, index) => {
-           return <img key={index} src={item} alt={name} />
-          })}
+            {defaultImg.map((item, index) => <img key={index} src={item} alt={name} />)}
           </div>
           <div className="single-room-info">
             <article className="desc">
@@ -57,28 +60,53 @@ export default class SingleRoom extends Component {
             </article>
             <article className="info">
               <h3>info</h3>
-              <h6>price: ${price}</h6>
-              <h6>size: {size} SQFT</h6>
               <h6>
-                max capacity: {
-                  capacity > 1 ? `${capacity} people` :
-                  `${capacity} person`
+                price: $
+                {price}
+              </h6>
+              <h6>
+                size:
+                {size}
+                {' '}
+                SQFT
+              </h6>
+              <h6>
+                max capacity:
+                {' '}
+                {
+                  capacity > 1 ? `${capacity} people`
+                    : `${capacity} person`
                 }
               </h6>
-              <h6>{pets ? "pets allowed" : "no pets allowed"}</h6>
-              <h6>{breakfast && "free breakfast included"}</h6>
+              <h6>{pets ? 'pets allowed' : 'no pets allowed'}</h6>
+              <h6>{breakfast && 'free breakfast included'}</h6>
             </article>
           </div>
         </section>
         <section className="room-extras">
           <h6>extras</h6>
           <ul className="extras">
-            {extras.map((item, index) => {
-              return <li key={index}>-{item}</li>
-            })}
+            {extras.map((item, index) => (
+              <li key={index}>
+                -
+                {item}
+              </li>
+            ))}
           </ul>
         </section>
       </>
     );
-  };
+  }
+}
+
+SingleRoom.contextType = RoomContext;
+
+SingleRoom.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      slug: PropTypes.string,
+    }),
+  }).isRequired,
 };
+
+/* eslint-enable react/no-array-index-key */

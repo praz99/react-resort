@@ -1,21 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRoomConsumer } from '../Context';
 import RoomsFilter from './RoomsFilter';
 import RoomsList from './RoomsList';
-import Loading from '../components/Loading';
+import Loading from './Loading';
 
-function RoomsContainer({context}) {
-  const {loading, sortedRooms, rooms} = context;
-  if(loading) {
-    return <Loading />
+function RoomsContainer({ context }) {
+  const { loading, sortedRooms, rooms } = context;
+  if (loading) {
+    return <Loading />;
   }
   return (
     <>
       <RoomsFilter rooms={rooms} />
       <RoomsList rooms={sortedRooms} />
     </>
-  )
+  );
 }
+
+RoomsContainer.propTypes = {
+  context: PropTypes.objectOf(PropTypes.object).isRequired,
+};
 
 export default withRoomConsumer(RoomsContainer);
 

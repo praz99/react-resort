@@ -1,7 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Banner from '../components/Banner';
 import Hero from '../components/Hero';
-import { Link } from 'react-router-dom';
 import Services from '../components/Services';
 import FeaturedRooms from '../components/FeaturedRooms';
 
@@ -19,4 +19,4 @@ export default function Home() {
       <FeaturedRooms />
     </>
   );
-};
+}
